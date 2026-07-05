@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Dashboard - HotelBooking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+        .navbar-custom {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+        .navbar-custom .navbar-brand { font-weight: 800; font-size: 24px; color: #1a1a2e; }
+        .navbar-custom .navbar-brand span { color: #f5a623; }
+        .navbar-custom .nav-link { font-weight: 600; color: #1a1a2e !important; margin: 0 12px; transition: 0.3s; }
+        .navbar-custom .nav-link:hover { color: #f5a623 !important; }
+        .dashboard-header { background: linear-gradient(135deg, #1a1a2e, #0f3460); padding: 40px 0; color: white; }
+        .dashboard-header h1 { font-weight: 800; }
+        .dashboard-header h1 span { color: #f5a623; }
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.04);
+            transition: 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .stat-card .icon { font-size: 32px; color: #f5a623; }
+        .stat-card h3 { font-size: 28px; font-weight: 800; color: #1a1a2e; }
+        .stat-card p { color: #888; font-weight: 500; }
+        .booking-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.04);
+            margin-bottom: 16px;
+            transition: 0.3s;
+        }
+        .booking-card:hover { box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+        .booking-card .status {
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .status-confirmed { background: #d4edda; color: #155724; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+        .footer { background: #1a1a2e; color: rgba(255,255,255,0.7); padding: 30px 0; margin-top: 60px; text-align: center; }
+        .footer a { color: #f5a623; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Hotel<span>Booking</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#hotels">Hotels</a></li>
+                    <li class="nav-item"><a class="nav-link" href="booking.html">Book</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <h1>Welcome back, <span>John</span>!</h1>
+            <p class="opacity-75">Here's an overview of your bookings</p>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="container" style="margin-top: -30px;">
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="stat-card text-center">
+                    <div class="icon"><i class="fas fa-calendar-check"></i></div>
+                    <h3 id="totalBookings">12</h3>
+                    <p>Total Bookings</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card text-center">
+                    <div class="icon"><i class="fas fa-check-circle" style="color:#28a745;"></i></div>
+                    <h3 id="activeBookings">5</h3>
+                    <p>Active Bookings</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card text-center">
+                    <div class="icon"><i class="fas fa-clock" style="color:#ffc107;"></i></div>
+                    <h3 id="pendingBookings">3</h3>
+                    <p>Pending</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card text-center">
+                    <div class="icon"><i class="fas fa-star" style="color:#f5a623;"></i></div>
+                    <h3 id="totalSpent">$4,280</h3>
+                    <p>Total Spent</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bookings List -->
+    <section class="container py-5">
+        <h3 class="fw-800 mb-4"><i class="fas fa-list-ul" style="color:#f5a623;"></i> Your Bookings</h3>
+        <div id="bookingsList">
+            <!-- Loaded by JavaScript -->
+            <div class="text-center py-5">
+                <div class="spinner-border text-warning"><span class="visually-hidden">Loading...</span></div>
+                <p class="mt-2">Loading your bookings...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 HotelBooking. Made with <i class="fas fa-heart" style="color:#f5a623;"></i></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+        });
+
+        function loadDashboard() {
+            // Sample booking data - replace with API call
+            const bookings = [
+                { id: 1, hotel: 'Grand Palace Hotel', location: 'New York', checkin: '2026-07-15', checkout: '2026-07-20', status: 'Confirmed', price: 1495 },
+                { id: 2, hotel: 'Ocean View Resort', location: 'Miami', checkin: '2026-08-01', checkout: '2026-08-05', status: 'Pending', price: 796 },
+                { id: 3, hotel: 'Mountain Retreat', location: 'Denver', checkin: '2026-06-10', checkout: '2026-06-12', status: 'Confirmed', price: 318 },
+                { id: 4, hotel: 'Sunset Paradise', location: 'California', checkin: '2026-05-20', checkout: '2026-05-25', status: 'Cancelled', price: 1745 }
+            ];
+
+            const container = document.getElementById('bookingsList');
+            container.innerHTML = bookings.map(booking => `
+                <div class="booking-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <h5 class="fw-700 mb-0">${booking.hotel}</h5>
+                            <p class="text-muted mb-0"><i class="fas fa-map-marker-alt" style="color:#f5a623;"></i> ${booking.location}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="mb-0"><i class="far fa-calendar-alt"></i> ${booking.checkin} to ${booking.checkout}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="status status-${booking.status.toLowerCase()}">${booking.status}</span>
+                        </div>
+                        <div class="col-md-2 text-md-end">
+                            <span class="fw-700" style="font-size:18px;">$${booking.price}</span>
+                        </div>
+                        <div class="col-md-1 text-md-end">
+                            <a href="booking.html?hotel=1" class="btn btn-sm" style="background:#f5a623;color:#1a1a2e;border-radius:20px;padding:4px 14px;font-weight:600;">View</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+
+</body>
+</html>

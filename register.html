@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Register - HotelBooking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; min-height: 100vh; display: flex; align-items: center; }
+        .register-container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+        }
+        .register-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .register-card .logo { text-align: center; font-size: 28px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+        .register-card .logo span { color: #f5a623; }
+        .register-card .subtitle { text-align: center; color: #888; margin-bottom: 32px; }
+        .register-card .form-control {
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 2px solid #e8ecf1;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .register-card .form-control:focus { border-color: #f5a623; box-shadow: none; }
+        .register-card .btn-register {
+            background: linear-gradient(135deg, #f5a623, #f7c948);
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            color: #1a1a2e;
+            font-weight: 700;
+            font-size: 16px;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .register-card .btn-register:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(245,166,35,0.4); }
+        .register-card .login-link { text-align: center; margin-top: 20px; color: #888; }
+        .register-card .login-link a { color: #f5a623; font-weight: 600; text-decoration: none; }
+        .back-home { text-align: center; margin-top: 20px; }
+        .back-home a { color: #888; text-decoration: none; font-size: 14px; }
+        .back-home a:hover { color: #f5a623; }
+        .password-hint { font-size: 12px; color: #999; margin-top: 4px; }
+        @media (max-width: 480px) { .register-card { padding: 32px 24px; } }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <div class="register-card">
+            <div class="logo">Hotel<span>Booking</span></div>
+            <p class="subtitle">Create your free account</p>
+
+            <form id="registerForm">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Full Name</label>
+                    <input type="text" class="form-control" id="registerName" placeholder="John Doe" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Email Address</label>
+                    <input type="email" class="form-control" id="registerEmail" placeholder="you@example.com" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Password</label>
+                    <input type="password" class="form-control" id="registerPassword" placeholder="Create a strong password" required />
+                    <p class="password-hint">Must be at least 8 characters</p>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Confirm Password</label>
+                    <input type="password" class="form-control" id="registerConfirm" placeholder="Confirm your password" required />
+                </div>
+                <button type="submit" class="btn-register"><i class="fas fa-user-plus"></i> Create Account</button>
+            </form>
+
+            <p class="login-link">Already have an account? <a href="login.html">Sign In</a></p>
+            <div class="back-home"><a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('registerConfirm').value;
+
+            if (password !== confirm) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Send to backend API
+            fetch('backend/api/register.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Registration successful! Please login.');
+                    window.location.href = 'login.html';
+                } else {
+                    alert('Registration failed: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error connecting to server. Please try again.');
+                console.error(error);
+            });
+        });
+    </script>
+
+</body>
+</html>

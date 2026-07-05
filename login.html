@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login - HotelBooking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; min-height: 100vh; display: flex; align-items: center; }
+        .login-container {
+            max-width: 440px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+        }
+        .login-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .login-card .logo { text-align: center; font-size: 28px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+        .login-card .logo span { color: #f5a623; }
+        .login-card .subtitle { text-align: center; color: #888; margin-bottom: 32px; }
+        .login-card .form-control {
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 2px solid #e8ecf1;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .login-card .form-control:focus { border-color: #f5a623; box-shadow: none; }
+        .login-card .btn-login {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .login-card .btn-login:hover { background: linear-gradient(135deg, #f5a623, #f7c948); color: #1a1a2e; }
+        .login-card .register-link { text-align: center; margin-top: 20px; color: #888; }
+        .login-card .register-link a { color: #f5a623; font-weight: 600; text-decoration: none; }
+        .login-card .divider { display: flex; align-items: center; margin: 24px 0; color: #ccc; }
+        .login-card .divider::before, .login-card .divider::after { content: ''; flex: 1; border-bottom: 1px solid #e8ecf1; }
+        .login-card .divider span { padding: 0 16px; font-size: 13px; }
+        .social-btn { display: flex; gap: 12px; }
+        .social-btn button {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e8ecf1;
+            border-radius: 12px;
+            background: white;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .social-btn button:hover { border-color: #f5a623; background: #fef9f0; }
+        .back-home { text-align: center; margin-top: 20px; }
+        .back-home a { color: #888; text-decoration: none; font-size: 14px; }
+        .back-home a:hover { color: #f5a623; }
+        @media (max-width: 480px) { .login-card { padding: 32px 24px; } }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">Hotel<span>Booking</span></div>
+            <p class="subtitle">Welcome back! Sign in to your account</p>
+
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Email Address</label>
+                    <input type="email" class="form-control" id="loginEmail" placeholder="you@example.com" required />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required />
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div><input type="checkbox" /> <span style="color:#888;font-size:14px;">Remember me</span></div>
+                    <a href="#" style="color:#f5a623;font-size:14px;text-decoration:none;">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn-login"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+            </form>
+
+            <div class="divider"><span>OR</span></div>
+
+            <div class="social-btn">
+                <button><i class="fab fa-google" style="color:#ea4335;"></i> Google</button>
+                <button><i class="fab fa-facebook" style="color:#1877f2;"></i> Facebook</button>
+            </div>
+
+            <p class="register-link">Don't have an account? <a href="register.html">Sign Up</a></p>
+            <div class="back-home"><a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Send to backend API
+            fetch('backend/api/login.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Login successful! Welcome back!');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Login failed: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error connecting to server. Please try again.');
+                console.error(error);
+            });
+        });
+    </script>
+
+</body>
+</html>

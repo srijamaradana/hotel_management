@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Panel - HotelBooking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+        .sidebar {
+            background: #1a1a2e;
+            min-height: 100vh;
+            padding: 30px 0;
+            position: sticky;
+            top: 0;
+        }
+        .sidebar .brand { color: white; font-size: 22px; font-weight: 800; padding: 0 24px 30px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .sidebar .brand span { color: #f5a623; }
+        .sidebar .nav-link {
+            color: rgba(255,255,255,0.6);
+            padding: 12px 24px;
+            margin: 4px 0;
+            border-radius: 0;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background: rgba(245,166,35,0.15);
+            color: #f5a623;
+            border-left: 3px solid #f5a623;
+        }
+        .sidebar .nav-link i { width: 24px; margin-right: 12px; }
+        .main-content { padding: 30px; }
+        .main-content h1 { font-weight: 800; color: #1a1a2e; }
+        .main-content h1 span { color: #f5a623; }
+        .stat-card-admin {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.04);
+            transition: 0.3s;
+        }
+        .stat-card-admin:hover { transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .stat-card-admin h3 { font-size: 32px; font-weight: 800; color: #1a1a2e; }
+        .stat-card-admin p { color: #888; font-weight: 500; }
+        .stat-card-admin .icon { font-size: 28px; color: #f5a623; }
+        .table-custom { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.06); }
+        .table-custom th { background: #f8fafc; font-weight: 600; color: #1a1a2e; border: none; }
+        .table-custom td { border-color: #f0f2f5; vertical-align: middle; }
+        .badge-status { padding: 4px 14px; border-radius: 20px; font-weight: 600; font-size: 12px; }
+        .badge-active { background: #d4edda; color: #155724; }
+        .badge-inactive { background: #f8d7da; color: #721c24; }
+        .badge-pending { background: #fff3cd; color: #856404; }
+        @media (max-width: 768px) { .sidebar { min-height: auto; } }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar d-none d-md-block">
+                <div class="brand">Hotel<span>Booking</span></div>
+                <nav class="nav flex-column mt-3">
+                    <a class="nav-link active" href="#"><i class="fas fa-dashboard"></i> Dashboard</a>
+                    <a class="nav-link" href="#"><i class="fas fa-hotel"></i> Hotels</a>
+                    <a class="nav-link" href="#"><i class="fas fa-user"></i> Users</a>
+                    <a class="nav-link" href="#"><i class="fas fa-calendar-check"></i> Bookings</a>
+                    <a class="nav-link" href="#"><i class="fas fa-chart-line"></i> Reports</a>
+                    <a class="nav-link" href="#"><i class="fas fa-cog"></i> Settings</a>
+                    <a class="nav-link" href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </nav>
+            </div>
+
+            <!-- Main -->
+            <div class="col-md-10 main-content">
+                <h1>Admin <span>Dashboard</span></h1>
+                <p class="text-muted">Manage your hotel business from one place</p>
+
+                <!-- Stats -->
+                <div class="row g-4 mt-2">
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card-admin">
+                            <div class="d-flex justify-content-between">
+                                <div><h3>24</h3><p>Total Hotels</p></div>
+                                <div class="icon"><i class="fas fa-hotel"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card-admin">
+                            <div class="d-flex justify-content-between">
+                                <div><h3>1,284</h3><p>Total Users</p></div>
+                                <div class="icon"><i class="fas fa-users"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card-admin">
+                            <div class="d-flex justify-content-between">
+                                <div><h3>342</h3><p>Total Bookings</p></div>
+                                <div class="icon"><i class="fas fa-calendar-check"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="stat-card-admin">
+                            <div class="d-flex justify-content-between">
+                                <div><h3>$84.2K</h3><p>Revenue</p></div>
+                                <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Bookings Table -->
+                <h5 class="fw-700 mt-5 mb-3"><i class="fas fa-list" style="color:#f5a623;"></i> Recent Bookings</h5>
+                <div class="table-custom">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Guest</th>
+                                <th>Hotel</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>John Doe</td>
+                                <td>Grand Palace</td>
+                                <td>2026-07-15</td>
+                                <td>2026-07-20</td>
+                                <td><span class="badge-status badge-active">Confirmed</span></td>
+                                <td>$1,495</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Sarah Smith</td>
+                                <td>Ocean View</td>
+                                <td>2026-08-01</td>
+                                <td>2026-08-05</td>
+                                <td><span class="badge-status badge-pending">Pending</span></td>
+                                <td>$796</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Mike Johnson</td>
+                                <td>Mountain Retreat</td>
+                                <td>2026-06-10</td>
+                                <td>2026-06-12</td>
+                                <td><span class="badge-status badge-active">Confirmed</span></td>
+                                <td>$318</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Emma Wilson</td>
+                                <td>Sunset Paradise</td>
+                                <td>2026-05-20</td>
+                                <td>2026-05-25</td>
+                                <td><span class="badge-status badge-inactive">Cancelled</span></td>
+                                <td>$1,745</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>David Brown</td>
+                                <td>City Lights</td>
+                                <td>2026-07-25</td>
+                                <td>2026-07-28</td>
+                                <td><span class="badge-status badge-active">Confirmed</span></td>
+                                <td>$657</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

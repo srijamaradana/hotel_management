@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Book a Hotel - HotelBooking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+        .navbar-custom {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-custom .navbar-brand { font-weight: 800; font-size: 24px; color: #1a1a2e; }
+        .navbar-custom .navbar-brand span { color: #f5a623; }
+        .navbar-custom .nav-link { font-weight: 600; color: #1a1a2e !important; margin: 0 12px; transition: 0.3s; }
+        .navbar-custom .nav-link:hover { color: #f5a623 !important; }
+        .booking-container { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+        .booking-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .booking-card h2 { font-weight: 800; color: #1a1a2e; }
+        .booking-card h2 span { color: #f5a623; }
+        .booking-card .form-control {
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 2px solid #e8ecf1;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .booking-card .form-control:focus { border-color: #f5a623; box-shadow: none; }
+        .booking-card .btn-book {
+            background: linear-gradient(135deg, #f5a623, #f7c948);
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            color: #1a1a2e;
+            font-weight: 700;
+            font-size: 18px;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .booking-card .btn-book:hover { transform: scale(1.02); box-shadow: 0 5px 20px rgba(245,166,35,0.4); }
+        .hotel-summary { background: #f8fafc; padding: 20px; border-radius: 16px; margin-bottom: 30px; }
+        .hotel-summary h5 { font-weight: 700; color: #1a1a2e; }
+        .hotel-summary .price { font-size: 24px; font-weight: 800; color: #f5a623; }
+        .footer { background: #1a1a2e; color: rgba(255,255,255,0.7); padding: 30px 0; margin-top: 60px; text-align: center; }
+        .footer a { color: #f5a623; text-decoration: none; }
+        @media (max-width: 480px) { .booking-card { padding: 24px; } }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Hotel<span>Booking</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html#hotels">Hotels</a></li>
+                    <li class="nav-item"><a class="nav-link" href="booking.html">Book</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html"><i class="fas fa-user"></i> Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Booking -->
+    <div class="booking-container">
+        <div class="booking-card">
+            <h2>Book Your <span>Stay</span></h2>
+            <p class="text-muted">Fill in the details to confirm your booking</p>
+
+            <div class="hotel-summary" id="hotelSummary">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h5 id="hotelName">Grand Palace Hotel</h5>
+                        <p class="text-muted" id="hotelLocation"><i class="fas fa-map-marker-alt" style="color:#f5a623;"></i> New York, USA</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <span class="price" id="hotelPrice">$299</span>
+                        <span style="color:#888;"> / night</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="bookingForm">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Check-in Date</label>
+                        <input type="date" class="form-control" id="checkin" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Check-out Date</label>
+                        <input type="date" class="form-control" id="checkout" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Number of Guests</label>
+                        <select class="form-control" id="guests">
+                            <option value="1">1 Guest</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5+ Guests</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Room Type</label>
+                        <select class="form-control" id="roomType">
+                            <option value="standard">Standard Room</option>
+                            <option value="deluxe" selected>Deluxe Room</option>
+                            <option value="suite">Suite</option>
+                            <option value="presidential">Presidential Suite</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Special Requests</label>
+                    <textarea class="form-control" id="requests" rows="3" placeholder="Any special requirements?"></textarea>
+                </div>
+                <button type="submit" class="btn-book"><i class="fas fa-check-circle"></i> Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 HotelBooking. Made with <i class="fas fa-heart" style="color:#f5a623;"></i></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get hotel from URL param
+        const urlParams = new URLSearchParams(window.location.search);
+        const hotelId = urlParams.get('hotel');
+
+        // Sample hotel data
+        const hotels = {
+            1: { name: 'Grand Palace Hotel', location: 'New York, USA', price: 299 },
+            2: { name: 'Ocean View Resort', location: 'Miami, USA', price: 199 },
+            3: { name: 'Mountain Retreat', location: 'Denver, USA', price: 159 },
+            4: { name: 'Sunset Paradise', location: 'California, USA', price: 349 },
+            5: { name: 'City Lights Hotel', location: 'Chicago, USA', price: 219 },
+            6: { name: 'Royal Garden Inn', location: 'Boston, USA', price: 279 }
+        };
+
+        if (hotelId && hotels[hotelId]) {
+            const hotel = hotels[hotelId];
+            document.getElementById('hotelName').textContent = hotel.name;
+            document.getElementById('hotelLocation').innerHTML = `<i class="fas fa-map-marker-alt" style="color:#f5a623;"></i> ${hotel.location}`;
+            document.getElementById('hotelPrice').textContent = `$${hotel.price}`;
+        }
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            const guests = document.getElementById('guests').value;
+            const roomType = document.getElementById('roomType').value;
+            const requests = document.getElementById('requests').value;
+
+            // Send to backend API
+            fetch('backend/api/book.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    hotel_id: hotelId,
+                    checkin,
+                    checkout,
+                    guests,
+                    room_type: roomType,
+                    requests
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('✅ Booking confirmed! Thank you for choosing us.');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('❌ Booking failed: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error connecting to server. Please try again.');
+                console.error(error);
+            });
+        });
+    </script>
+
+</body>
+</html>
