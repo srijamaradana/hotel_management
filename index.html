@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>HotelBooking - Find Your Perfect Stay</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+
+        /* Navbar */
+        .navbar-custom {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-custom .navbar-brand {
+            font-weight: 800;
+            font-size: 24px;
+            color: #1a1a2e;
+        }
+        .navbar-custom .navbar-brand span { color: #f5a623; }
+        .navbar-custom .nav-link {
+            font-weight: 600;
+            color: #1a1a2e !important;
+            margin: 0 12px;
+            transition: 0.3s;
+        }
+        .navbar-custom .nav-link:hover { color: #f5a623 !important; }
+        .btn-nav {
+            background: linear-gradient(135deg, #f5a623, #f7c948);
+            border: none;
+            padding: 8px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            color: #1a1a2e;
+            transition: 0.3s;
+        }
+        .btn-nav:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(245,166,35,0.4); }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 100px 0 80px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(245,166,35,0.15), transparent 70%);
+            border-radius: 50%;
+        }
+        .hero h1 { font-size: 56px; font-weight: 800; line-height: 1.1; }
+        .hero h1 span { color: #f5a623; }
+        .hero p { font-size: 20px; opacity: 0.85; margin-top: 20px; }
+        .btn-hero {
+            background: linear-gradient(135deg, #f5a623, #f7c948);
+            border: none;
+            padding: 14px 45px;
+            border-radius: 30px;
+            font-weight: 700;
+            color: #1a1a2e;
+            font-size: 18px;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+        .btn-hero:hover { transform: scale(1.05); box-shadow: 0 10px 40px rgba(245,166,35,0.5); }
+        .btn-hero-outline {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 14px 45px;
+            border-radius: 30px;
+            font-weight: 600;
+            color: white;
+            font-size: 18px;
+            transition: 0.3s;
+            margin-top: 20px;
+            margin-left: 15px;
+        }
+        .btn-hero-outline:hover { background: rgba(255,255,255,0.1); border-color: white; }
+
+        /* Search Bar */
+        .search-bar {
+            background: white;
+            border-radius: 50px;
+            padding: 10px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.15);
+            margin-top: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .search-bar input {
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            width: 70%;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-bar button {
+            background: linear-gradient(135deg, #f5a623, #f7c948);
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            color: #1a1a2e;
+            transition: 0.3s;
+            width: 28%;
+        }
+        .search-bar button:hover { transform: scale(1.02); }
+
+        /* Stats */
+        .stats {
+            padding: 60px 0;
+            background: white;
+        }
+        .stat-item { text-align: center; }
+        .stat-item h3 { font-size: 42px; font-weight: 800; color: #1a1a2e; }
+        .stat-item h3 span { color: #f5a623; }
+        .stat-item p { color: #666; font-weight: 500; }
+
+        /* Hotels Section */
+        .section-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1a1a2e;
+        }
+        .section-title span { color: #f5a623; }
+
+        .hotel-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+            transition: 0.4s;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .hotel-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+        .hotel-card img { width: 100%; height: 220px; object-fit: cover; }
+        .hotel-card .card-body { padding: 25px; }
+        .hotel-card .card-title { font-size: 20px; font-weight: 700; color: #1a1a2e; }
+        .hotel-card .location { color: #888; font-size: 14px; }
+        .hotel-card .rating {
+            background: #f5a623;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .hotel-card .price {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a2e;
+        }
+        .hotel-card .price small { font-size: 14px; font-weight: 400; color: #999; }
+        .btn-book-now {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .btn-book-now:hover { background: linear-gradient(135deg, #f5a623, #f7c948); color: #1a1a2e; }
+
+        /* Footer */
+        .footer {
+            background: #1a1a2e;
+            color: rgba(255,255,255,0.7);
+            padding: 60px 0 30px;
+        }
+        .footer h5 { color: white; font-weight: 700; margin-bottom: 20px; }
+        .footer a { color: rgba(255,255,255,0.6); text-decoration: none; transition: 0.3s; }
+        .footer a:hover { color: #f5a623; }
+        .footer .social a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: 0.3s;
+        }
+        .footer .social a:hover { background: #f5a623; color: #1a1a2e; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; margin-top: 40px; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .search-bar { flex-direction: column; border-radius: 20px; }
+            .search-bar input { width: 100%; border-radius: 20px; }
+            .search-bar button { width: 100%; border-radius: 20px; margin-top: 10px; }
+            .btn-hero-outline { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Hotel<span>Booking</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#hotels">Hotels</a></li>
+                    <li class="nav-item"><a class="nav-link" href="booking.html">Book</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html"><i class="fas fa-user"></i> Login</a></li>
+                    <li class="nav-item"><a class="btn btn-nav" href="register.html"><i class="fas fa-user-plus"></i> Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1>Find Your <span>Perfect Stay</span> Anywhere</h1>
+                    <p>Book luxury hotels, resorts, and boutique stays at the best prices. Your dream vacation starts here.</p>
+                    <a href="#hotels" class="btn btn-hero"><i class="fas fa-search"></i> Explore Hotels</a>
+                    <a href="booking.html" class="btn btn-hero-outline"><i class="fas fa-calendar-check"></i> Book Now</a>
+
+                    <div class="search-bar d-flex">
+                        <input type="text" placeholder="Search for hotels, destinations..." />
+                        <button><i class="fas fa-search"></i> Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6 stat-item">
+                    <h3><span>12K+</span></h3>
+                    <p>Happy Guests</p>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <h3><span>450+</span></h3>
+                    <p>Hotels Available</p>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <h3><span>98%</span></h3>
+                    <p>Satisfaction Rate</p>
+                </div>
+                <div class="col-md-3 col-6 stat-item">
+                    <h3><span>24/7</span></h3>
+                    <p>Customer Support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hotels -->
+    <section id="hotels" class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Popular <span>Hotels</span></h2>
+            <p class="text-muted" style="font-size:18px;">Discover the best hotels handpicked just for you</p>
+        </div>
+        <div class="row" id="hotel-list">
+            <!-- Hotels loaded by JavaScript -->
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-warning" role="status"><span class="visually-hidden">Loading...</span></div>
+                <p class="mt-2">Loading hotels...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5>Hotel<span style="color:#f5a623;">Booking</span></h5>
+                    <p>Your trusted partner for finding the perfect stay anywhere in the world.</p>
+                    <div class="social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <a href="#"><p>Home</p></a>
+                    <a href="#hotels"><p>Hotels</p></a>
+                    <a href="booking.html"><p>Book Now</p></a>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h5>Support</h5>
+                    <a href="#"><p>Help Center</p></a>
+                    <a href="#"><p>Contact Us</p></a>
+                    <a href="#"><p>FAQ</p></a>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe for exclusive deals and updates.</p>
+                    <div class="d-flex">
+                        <input type="email" class="form-control" placeholder="Your email" style="border-radius:30px 0 0 30px; border: none;">
+                        <button class="btn" style="background:#f5a623; border-radius:0 30px 30px 0; color:#1a1a2e; font-weight:600; padding:0 25px;">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <p>&copy; 2026 HotelBooking. All Rights Reserved. Made with <i class="fas fa-heart" style="color:#f5a623;"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load hotels from API
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHotels();
+        });
+
+        function loadHotels() {
+            // If you have a backend API, replace this URL
+            // For now, using sample data
+            const sampleHotels = [
+                { id: 1, name: 'Grand Palace Hotel', location: 'New York, USA', price: 299, image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=220&fit=crop', rating: 4.8 },
+                { id: 2, name: 'Ocean View Resort', location: 'Miami, USA', price: 199, image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400&h=220&fit=crop', rating: 4.6 },
+                { id: 3, name: 'Mountain Retreat', location: 'Denver, USA', price: 159, image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400&h=220&fit=crop', rating: 4.7 },
+                { id: 4, name: 'Sunset Paradise', location: 'California, USA', price: 349, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=220&fit=crop', rating: 4.9 },
+                { id: 5, name: 'City Lights Hotel', location: 'Chicago, USA', price: 219, image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=400&h=220&fit=crop', rating: 4.5 },
+                { id: 6, name: 'Royal Garden Inn', location: 'Boston, USA', price: 279, image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=400&h=220&fit=crop', rating: 4.7 }
+            ];
+
+            const hotelList = document.getElementById('hotel-list');
+            hotelList.innerHTML = sampleHotels.map(hotel => `
+                <div class="col-lg-4 col-md-6">
+                    <div class="hotel-card">
+                        <img src="${hotel.image}" alt="${hotel.name}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h5 class="card-title">${hotel.name}</h5>
+                                <span class="rating"><i class="fas fa-star"></i> ${hotel.rating}</span>
+                            </div>
+                            <p class="location"><i class="fas fa-map-marker-alt" style="color:#f5a623;"></i> ${hotel.location}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="price">$${hotel.price} <small>/ night</small></span>
+                                <button class="btn-book-now" onclick="bookHotel(${hotel.id})">
+                                    <i class="fas fa-calendar-check"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function bookHotel(id) {
+            window.location.href = `booking.html?hotel=${id}`;
+        }
+    </script>
+</body>
+</html>
